@@ -48,18 +48,14 @@ jobs:
           # Default: github_actor
           default_author: github_actions
       
-          # Arguments for the git fetch command. If set to false, the action won't fetch the repo.
-          # For more info as to why fetching is usually recommended, please see the "Performance on large repos" FAQ. 
-          # Default: --tags --force
-          fetch: false
-      
+    
           # The message for the commit.
           # Default: 'Commit from GitHub Actions (name of the workflow)'
           message: 'Your commit message'
       
           # If this input is set, the action will push the commit to a new branch with this name.
           # Default: ''
-          new_branch: custom-new-branch${{ env.GITHUB_REF_NAME }}
+          new_branch: custom-new-branch${{ github.ref_name }}
       
           # The way the action should handle pathspec errors from the add and remove commands. Three options are available:
           # - ignore -> errors will be logged but the step won't fail
@@ -82,7 +78,7 @@ jobs:
       
           # Arguments for the git tag command (the tag name always needs to be the first word not preceded by an hyphen)
           # Default: ''
-          tag: ${{ env.GITHUB_REF_NAME }}
+          tag: ${{ github.ref_name }}
       
           # Arguments for the git push --tags command (any additional argument will be added after --tags)
           # Default: ''
