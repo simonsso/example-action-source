@@ -19,10 +19,9 @@ jobs:
           token: ${{ secrets.token_for_actions_example }}
           repository: simonsso/example-action
       - run: |
-          date > target/actions.yml
-          pwd
-          ls -la
-          find
+           TAG=`echo ${{ github.ref_name }} |sed s/v//`
+           echo Building tag $TAG
+           cat src/actions.yml | sed s/master/$TAG/ > target/actions.yml
       - uses: EndBug/add-and-commit@v9
         with:
           # The arguments for the `git add` command (see the paragraph below for more info)
@@ -31,7 +30,7 @@ jobs:
       
           # The name of the user that will be displayed as the author of the commit.
           # Default: depends on the default_author input
-          author_name: R Obot
+          author_name: Fredrik Simonsson's bot
       
           # The email of the user that will be displayed as the author of the commit.
           # Default: depends on the default_author input
@@ -51,11 +50,11 @@ jobs:
     
           # The message for the commit.
           # Default: 'Commit from GitHub Actions (name of the workflow)'
-          message: 'Your commit message'
+          # message: 'Your commit message'
       
           # If this input is set, the action will push the commit to a new branch with this name.
           # Default: ''
-          new_branch: custom-new-branch${{ github.ref_name }}
+          new_branch: release-${{ github.ref_name }}
       
           # The way the action should handle pathspec errors from the add and remove commands. Three options are available:
           # - ignore -> errors will be logged but the step won't fail
@@ -84,10 +83,6 @@ jobs:
           # Default: ''
           tag_push: '--force'
         
-
-
-
-
       # - name: Docker meta
       #   id: meta
       #   uses: docker/metadata-action@v4
